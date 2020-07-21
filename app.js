@@ -1,6 +1,6 @@
-// const fs = require('fs');
+const fs = require('fs');
 const inquirer = require('inquirer');
-// const generatePage = require('./src/template-page.js');
+const generatePage = require('./src/template-page.js');
 // const profileDataArgs = process.argv.slice(2, process.argv.length);
 // const [name, github] = profileDataArgs;
 
@@ -129,7 +129,13 @@ const promptProject = portfolioData => {
 promptUser()
   .then(promptProject)
   .then(portfolioData => {
-    console.log(portfolioData);
+    const pageHTML = generatePage(portfolioData);
+
+    fs.writeFile('./index.html', pageHTML, err => {
+      if (err) throw new Error(err);
+
+      console.log('Page created! Check out index.html in this directory to see it!');
+    });
 });
 
 // fs.writeFile('index.html', generatePage(name, github), err => {
